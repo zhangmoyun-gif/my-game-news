@@ -1,0 +1,33 @@
+{
+  "last_updated": "2025-09-23 09:33:09",
+  "top_articles": [],
+  "new_games": [
+    {
+      "name": "《宿命回响：弦上的叹息》",
+      "platform": [
+        "手游"
+      ],
+      "genre": [
+        "RPG",
+        "音乐"
+      ],
+      "release_date": "2023-10-18",
+      "estimated_downloads": "150万",
+      "estimated_revenue": "500万"
+    },
+    {
+      "name": "《战锤40K：暗潮》",
+      "platform": [
+        "PC",
+        "Xbox"
+      ],
+      "genre": [
+        "FPS",
+        "合作"
+      ],
+      "release_date": "2023-10-17",
+      "estimated_downloads": "50万",
+      "estimated_revenue": "300万"
+    }
+  ]
+}
