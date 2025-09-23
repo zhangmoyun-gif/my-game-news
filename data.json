@@ -1,0 +1,110 @@
+{
+  "last_updated": "2023-10-27 15:30:00",
+  "top_articles": [
+    {
+      "title": "网易Q3游戏业务营收123亿元，《逆水寒》手游表现强劲",
+      "link": "https://example.com/1",
+      "summary": "网易最新财报显示，游戏业务保持稳定增长，其中《逆水寒》手游上线后表现突出，为营收贡献显著。",
+      "published": "2023-10-26",
+      "source": "GameLook",
+      "score": 6,
+      "tags": [
+        "网易",
+        "财报",
+        "流水"
+      ]
+    },
+    {
+      "title": "10月第二批版号下发：共87款游戏过审",
+      "link": "https://example.com/2",
+      "summary": "国家新闻出版署发布了10月份第二批游戏版号，本次共有87款游戏获得版号，涵盖手游、端游等多个平台。",
+      "published": "2023-10-25",
+      "source": "游戏陀螺",
+      "score": 6,
+      "tags": [
+        "版号"
+      ]
+    },
+    {
+      "title": "腾讯宣布加大AI游戏研发投入，成立新工作室",
+      "link": "https://example.com/3",
+      "summary": "腾讯在近日的技术大会上宣布将大幅增加AI在游戏研发中的应用，并成立专门的工作室聚焦AI游戏开发。",
+      "published": "2023-10-24",
+      "source": "游戏葡萄",
+      "score": 4,
+      "tags": [
+        "腾讯",
+        "AI",
+        "招聘"
+      ]
+    },
+    {
+      "title": "米哈游《绝区零》预约破千万，预计明年上线",
+      "link": "https://example.com/4",
+      "summary": "米哈游新作《绝区零》官方宣布预约人数突破1000万，预计将于2024年正式上线各大平台。",
+      "published": "2023-10-23",
+      "source": "游戏那些事",
+      "score": 3,
+      "tags": [
+        "米哈游",
+        "破纪录"
+      ]
+    }
+  ],
+  "new_games": [
+    {
+      "name": "《宿命回响：弦上的叹息》",
+      "platform": [
+        "手游"
+      ],
+      "genre": [
+        "RPG",
+        "音乐"
+      ],
+      "release_date": "2023-10-18",
+      "estimated_downloads": "150万",
+      "estimated_revenue": "500万"
+    },
+    {
+      "name": "《战锤40K：暗潮》",
+      "platform": [
+        "PC",
+        "Xbox"
+      ],
+      "genre": [
+        "FPS",
+        "合作"
+      ],
+      "release_date": "2023-10-17",
+      "estimated_downloads": "50万",
+      "estimated_revenue": "300万"
+    },
+    {
+      "name": "《铃兰之剑：为这和平的世界》",
+      "platform": [
+        "手游"
+      ],
+      "genre": [
+        "SRPG",
+        "策略"
+      ],
+      "release_date": "2023-10-20",
+      "estimated_downloads": "80万",
+      "estimated_revenue": "200万"
+    },
+    {
+      "name": "《星球大战：猎人》",
+      "platform": [
+        "Switch",
+        "手游"
+      ],
+      "genre": [
+        "竞技",
+        "动作"
+      ],
+      "release_date": "2023-10-19",
+      "estimated_downloads": "120万",
+      "estimated_revenue": "400万"
+    }
+  ]
+}
