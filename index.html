@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/my-game-news/">
+    <title>游戏行业动态看板</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background: #f6f8fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .news-item { border-left: 4px solid #0366d6; padding-left: 15px; margin-bottom: 15px; }
+        .tag { display: inline-block; background: #eef5ff; color: #0366d6; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-right: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f6f8fa; }
+        .filters { background: #f6f8fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+        select, input { padding: 5px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>🎮 游戏行业动态看板</h1>
+        <p>最后更新: {{ lastUpdated }}</p>
+
+        <!-- 资讯头条部分 -->
+        <section class="card">
+            <h2>📰 本周行业头条</h2>
+            <div v-for="article in topArticles" :key="article.link" class="news-item">
+                <h3><a :href="article.link" target="_blank">{{ article.title }}</a></h3>
+                <p>{{ article.summary }}</p>
+                <div class="meta">
+                    <small>来源: {{ article.source }} | 日期: {{ article.published }}</small>
+                    <span v-for="tag in article.tags" :key="tag" class="tag">#{{ tag }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 新游数据部分 -->
+        <section class="card">
+            <h2>🎯 近期新游数据 
+                <button @click="showFilters = !showFilters" class="filter-btn">
+                    {{ showFilters ? '隐藏' : '显示' }}筛选器
+                </button>
+            </h2>
+            
+            <div v-if="showFilters" class="filters">
+                <label>平台:
+                    <select v-model="filters.platform">
+                        <option value="">全部</option>
+                        <option>手游</option>
+                        <option>PC</option>
+                        <option>主机</option>
+                    </select>
+                </label>
+                <label>类型:
+                    <select v-model="filters.genre">
+                        <option value="">全部</option>
+                        <option>RPG</option>
+                        <option>SLG</option>
+                        <option>FPS</option>
+                        <option>MOBA</option>
+                    </select>
+                </label>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>游戏名</th>
+                        <th>平台</th>
+                        <th>类型</th>
+                        <th>上线日期</th>
+                        <th>预估下载量</th>
+                        <th>预估流水</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="game in filteredGames" :key="game.name">
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.platform.join(', ') }}</td>
+                        <td>{{ game.genre.join(', ') }}</td>
+                        <td>{{ game.release_date }}</td>
+                        <td>{{ game.estimated_downloads }}</td>
+                        <td>{{ game.estimated_revenue }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    lastUpdated: '加载中...',
+                    topArticles: [],
+                    newGames: [],
+                    showFilters: false,
+                    filters: {
+                        platform: '',
+                        genre: ''
+                    }
+                };
+            },
+            computed: {
+                filteredGames() {
+                    return this.newGames.filter(game => {
+                        const platformMatch = !this.filters.platform || 
+                            game.platform.includes(this.filters.platform);
+                        const genreMatch = !this.filters.genre ||
+                            game.genre.includes(this.filters.genre);
+                        return platformMatch && genreMatch;
+                    });
+                }
+            },
+            async mounted() {
+                try {
+                    const response = await fetch('./data.json');
+                    const data = await response.json();
+                    this.lastUpdated = data.last_updated;
+                    this.topArticles = data.top_articles;
+                    this.newGames = data.new_games;
+                } catch (error) {
+                    console.error('加载数据失败:', error);
+                    this.lastUpdated = '数据加载失败';
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
