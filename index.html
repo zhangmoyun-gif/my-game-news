@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/my-game-news/">
     <title>游戏行业动态看板</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
@@ -93,12 +92,55 @@
     <script>
         const { createApp } = Vue;
         
+        // 直接将数据嵌入在HTML中，避免外部文件加载问题
+        const embeddedData = {
+            "last_updated": "2023-10-27 15:30:00",
+            "top_articles": [
+                {
+                    "title": "网易Q3游戏业务营收123亿元，《逆水寒》手游表现强劲",
+                    "link": "https://example.com/1",
+                    "summary": "网易最新财报显示，游戏业务保持稳定增长，其中《逆水寒》手游上线后表现突出，为营收贡献显著。",
+                    "published": "2023-10-26",
+                    "source": "GameLook",
+                    "score": 6,
+                    "tags": ["网易", "财报", "流水"]
+                },
+                {
+                    "title": "10月第二批版号下发：共87款游戏过审",
+                    "link": "https://example.com/2",
+                    "summary": "国家新闻出版署发布了10月份第二批游戏版号，本次共有87款游戏获得版号，涵盖手游、端游等多个平台。",
+                    "published": "2023-10-25",
+                    "source": "游戏陀螺",
+                    "score": 6,
+                    "tags": ["版号"]
+                }
+            ],
+            "new_games": [
+                {
+                    "name": "《宿命回响：弦上的叹息》",
+                    "platform": ["手游"],
+                    "genre": ["RPG", "音乐"],
+                    "release_date": "2023-10-18",
+                    "estimated_downloads": "150万",
+                    "estimated_revenue": "500万"
+                },
+                {
+                    "name": "《战锤40K：暗潮》",
+                    "platform": ["PC", "Xbox"],
+                    "genre": ["FPS", "合作"],
+                    "release_date": "2023-10-17",
+                    "estimated_downloads": "50万",
+                    "estimated_revenue": "300万"
+                }
+            ]
+        };
+        
         createApp({
             data() {
                 return {
-                    lastUpdated: '加载中...',
-                    topArticles: [],
-                    newGames: [],
+                    lastUpdated: embeddedData.last_updated,
+                    topArticles: embeddedData.top_articles,
+                    newGames: embeddedData.new_games,
                     showFilters: false,
                     filters: {
                         platform: '',
@@ -115,18 +157,6 @@
                             game.genre.includes(this.filters.genre);
                         return platformMatch && genreMatch;
                     });
-                }
-            },
-            async mounted() {
-                try {
-                    const response = await fetch('data.json');
-                    const data = await response.json();
-                    this.lastUpdated = data.last_updated;
-                    this.topArticles = data.top_articles;
-                    this.newGames = data.new_games;
-                } catch (error) {
-                    console.error('加载数据失败:', error);
-                    this.lastUpdated = '数据加载失败';
                 }
             }
         }).mount('#app');
