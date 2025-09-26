@@ -1,5 +1,5 @@
 {
-  "last_updated": "2024-01-23 10:00:00",
+  "last_updated": "2024-01-23 15:00:00",
   "top_articles": [
     {
       "title": "2024年游戏行业趋势分析：AIGC将如何改变游戏开发",
@@ -12,7 +12,7 @@
     },
     {
       "title": "最新游戏版号发放：共计89款游戏过审",
-      "link": "https://example.com/real-2", 
+      "link": "https://example.com/real-2",
       "summary": "国家新闻出版署发布最新一批游戏版号，多款重点游戏获得版号",
       "published": "2024-01-18",
       "source": "游戏陀螺",
@@ -39,7 +39,7 @@
       "estimated_revenue": "1000万"
     },
     {
-      "name": "《仙境传说：复兴》", 
+      "name": "《仙境传说：复兴》",
       "platform": ["手游"],
       "genre": ["MMORPG", "怀旧"],
       "release_date": "2024-01-18",
