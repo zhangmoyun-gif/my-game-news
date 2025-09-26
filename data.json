@@ -1,32 +1,50 @@
 {
-  "last_updated": "2024-01-23 15:00:00",
+  "last_updated": "2024-01-23 15:30:00",
   "top_articles": [
     {
-      "title": "2024年游戏行业趋势分析：AIGC将如何改变游戏开发",
-      "link": "https://example.com/real-1",
-      "summary": "随着AIGC技术的发展，游戏行业正面临重大变革，本文将分析2024年主要趋势",
+      "title": "2024年游戏行业AIGC技术应用趋势分析",
+      "link": "https://example.com/ai-trend",
+      "summary": "随着人工智能技术的发展，AIGC正在深刻改变游戏开发流程和用户体验",
       "published": "2024-01-20",
       "source": "GameLook",
-      "score": 5,
-      "tags": ["AI", "趋势", "技术"]
+      "score": 6,
+      "tags": ["AI", "技术", "趋势"]
     },
     {
-      "title": "最新游戏版号发放：共计89款游戏过审",
-      "link": "https://example.com/real-2",
-      "summary": "国家新闻出版署发布最新一批游戏版号，多款重点游戏获得版号",
+      "title": "最新游戏版号发放：重点游戏项目过审",
+      "link": "https://example.com/license",
+      "summary": "国家新闻出版署公布新一批游戏版号，多款备受期待的游戏获得上市许可",
       "published": "2024-01-18",
       "source": "游戏陀螺",
-      "score": 6,
+      "score": 5,
       "tags": ["版号", "政策"]
     },
     {
-      "title": "腾讯发布新年战略：重点布局海外市场和AIGC",
-      "link": "https://example.com/real-3",
-      "summary": "腾讯在年度战略会议上宣布将加大海外市场投入和AIGC技术研发",
+      "title": "腾讯加大AI游戏研发投入，成立新工作室",
+      "link": "https://example.com/tencent-ai",
+      "summary": "腾讯宣布将大幅增加AI在游戏研发中的应用，成立专门工作室聚焦AI游戏开发",
       "published": "2024-01-15",
       "source": "游戏葡萄",
       "score": 4,
-      "tags": ["腾讯", "战略", "海外"]
+      "tags": ["腾讯", "AI", "研发"]
+    },
+    {
+      "title": "游戏出海新趋势：中小厂商的机遇与挑战",
+      "link": "https://example.com/overseas",
+      "summary": "分析当前游戏出海市场的新趋势，以及中小型游戏厂商面临的机会与挑战",
+      "published": "2024-01-12",
+      "source": "游戏茶馆",
+      "score": 4,
+      "tags": ["出海", "市场", "趋势"]
+    },
+    {
+      "title": "2023年游戏行业融资报告分析",
+      "link": "https://example.com/finance-report",
+      "summary": "回顾2023年游戏行业投融资情况，分析主要投资方向和未来趋势",
+      "published": "2024-01-10",
+      "source": "游戏那些事",
+      "score": 5,
+      "tags": ["融资", "财报", "投资"]
     }
   ],
   "new_games": [
@@ -36,15 +54,23 @@
       "genre": ["休闲", "社交"],
       "release_date": "2024-01-20",
       "estimated_downloads": "500万",
-      "estimated_revenue": "1000万"
+      "estimated_revenue": "1200万"
     },
     {
       "name": "《仙境传说：复兴》",
       "platform": ["手游"],
       "genre": ["MMORPG", "怀旧"],
       "release_date": "2024-01-18",
-      "estimated_downloads": "200万",
+      "estimated_downloads": "300万",
       "estimated_revenue": "800万"
+    },
+    {
+      "name": "《宿命回响：弦上的叹息》",
+      "platform": ["手游"],
+      "genre": ["RPG", "音乐"],
+      "release_date": "2024-01-15",
+      "estimated_downloads": "150万",
+      "estimated_revenue": "500万"
     }
   ]
 }
