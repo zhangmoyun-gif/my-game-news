@@ -1,5 +1,5 @@
 {
-  "last_updated": "2024-01-23 15:30:00",
+  "last_updated": "2024-01-23 16:30:00",
   "top_articles": [
     {
       "title": "2024年游戏行业AIGC技术应用趋势分析",
@@ -27,24 +27,6 @@
       "source": "游戏葡萄",
       "score": 4,
       "tags": ["腾讯", "AI", "研发"]
-    },
-    {
-      "title": "游戏出海新趋势：中小厂商的机遇与挑战",
-      "link": "https://example.com/overseas",
-      "summary": "分析当前游戏出海市场的新趋势，以及中小型游戏厂商面临的机会与挑战",
-      "published": "2024-01-12",
-      "source": "游戏茶馆",
-      "score": 4,
-      "tags": ["出海", "市场", "趋势"]
-    },
-    {
-      "title": "2023年游戏行业融资报告分析",
-      "link": "https://example.com/finance-report",
-      "summary": "回顾2023年游戏行业投融资情况，分析主要投资方向和未来趋势",
-      "published": "2024-01-10",
-      "source": "游戏那些事",
-      "score": 5,
-      "tags": ["融资", "财报", "投资"]
     }
   ],
   "new_games": [
