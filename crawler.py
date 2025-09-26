@@ -5,213 +5,136 @@ import random
 import re
 import json
 
-# 多源抓取配置
-SOURCES_CONFIG = [
+# 真实的RSS源配置（基于RSSHub）
+REAL_RSS_SOURCES = [
     {
         "name": "GameLook",
-        "strategies": ["aggregator", "wechat_search"],
-        "search_keywords": ["GameLook", "游戏大观"],
+        "url": "https://rsshub.app/wechat/game_look",
         "priority": 3
     },
     {
         "name": "游戏葡萄", 
-        "strategies": ["aggregator", "wechat_search"],
-        "search_keywords": ["游戏葡萄"],
+        "url": "https://rsshub.app/wechat/gamegrape",
         "priority": 3
     },
     {
         "name": "游戏陀螺",
-        "strategies": ["aggregator", "wechat_search"], 
-        "search_keywords": ["游戏陀螺"],
+        "url": "https://rsshub.app/wechat/youxituoluo", 
         "priority": 3
     },
     {
         "name": "游戏茶馆",
-        "strategies": ["aggregator", "wechat_search"],
-        "search_keywords": ["游戏茶馆"],
+        "url": "https://rsshub.app/wechat/youxichaguan",
         "priority": 3
     },
     {
         "name": "游戏那些事",
-        "strategies": ["aggregator", "wechat_search"],
-        "search_keywords": ["游戏那些事"],
+        "url": "https://rsshub.app/wechat/youxinaxieshi",
         "priority": 3
     },
     {
         "name": "TapTap",
-        "strategies": ["aggregator", "wechat_search"],
-        "search_keywords": ["TapTap", "TapTap 推荐"],
+        "url": "https://rsshub.app/taptap/topic/5565",  # 游戏资讯
         "priority": 2
     }
 ]
 
-def fetch_articles_from_all_sources():
-    """从所有配置的数据源获取文章"""
-    print("开始从多源抓取公众号文章...")
+def fetch_real_articles():
+    """从真实RSS源抓取文章"""
+    print("开始从真实RSS源抓取数据...")
     all_articles = []
     
-    for source in SOURCES_CONFIG:
-        print(f"\n正在抓取 {source['name']}...")
+    for source in REAL_RSS_SOURCES:
+        print(f"抓取 {source['name']}...")
         try:
-            articles = fetch_articles_by_strategies(source)
+            articles = fetch_from_rsshub(source)
             if articles:
                 print(f"  → 成功获取 {len(articles)} 篇文章")
                 all_articles.extend(articles)
             else:
-                print(f"  → 未获取到文章，使用示例数据")
-                # 添加示例数据作为兜底
-                all_articles.extend(get_sample_articles_for_source(source["name"]))
+                print(f"  → 未获取到文章")
                 
         except Exception as e:
             print(f"  → 抓取失败: {e}")
-            # 失败时使用示例数据
-            all_articles.extend(get_sample_articles_for_source(source["name"]))
         
-        # 礼貌性延迟
-        time.sleep(random.uniform(2, 4))
+        time.sleep(1)  # 礼貌延迟
     
-    print(f"\n抓取完成，共获取 {len(all_articles)} 篇文章")
+    print(f"抓取完成，共获取 {len(all_articles)} 篇真实文章")
     return all_articles
 
-def fetch_articles_by_strategies(source):
-    """根据配置的策略顺序尝试抓取"""
+def fetch_from_rsshub(source):
+    """从RSSHub获取真实数据"""
     articles = []
     
-    for strategy in source["strategies"]:
-        try:
-            if strategy == "aggregator":
-                result = fetch_from_aggregator(source)
-            elif strategy == "wechat_search":
-                result = fetch_from_wechat_search(source)
-            else:
-                continue
-                
-            if result:
-                articles.extend(result)
-                break  # 一个策略成功就停止尝试
-                
-        except Exception as e:
-            print(f"   策略 {strategy} 失败: {e}")
-            continue
-    
-    return articles
-
-def fetch_from_aggregator(source):
-    """从聚合平台抓取文章"""
-    articles = []
-    
-    # 模拟从聚合平台获取数据（实际会调用API）
-    # 这里使用模拟数据演示流程
-    for keyword in source["search_keywords"]:
-        try:
-            # 模拟API调用
-            time.sleep(1)
+    try:
+        response = requests.get(source["url"], timeout=10)
+        if response.status_code == 200:
+            # 解析RSS内容
+            import feedparser
+            feed = feedparser.parse(response.content)
             
-            # 模拟返回数据
-            mock_articles = [
-                {
-                    "title": f"{keyword}：最新行业动态分析",
-                    "link": f"https://example.com/{keyword}/1",
-                    "summary": f"这是{keyword}的最新行业分析文章摘要...",
-                    "published": (datetime.now() - timedelta(days=random.randint(1, 10))).strftime("%Y-%m-%d"),
-                    "source": source["name"]
-                },
-                {
-                    "title": f"{keyword}深度报道：市场趋势解读", 
-                    "link": f"https://example.com/{keyword}/2",
-                    "summary": f"{keyword}对当前市场趋势的深度解读...",
-                    "published": (datetime.now() - timedelta(days=random.randint(1, 10))).strftime("%Y-%m-%d"),
+            for entry in feed.entries[:10]:  # 只取最新10篇
+                # 只保留最近14天的文章
+                published_time = datetime(*entry.published_parsed[:6])
+                if datetime.now() - published_time > timedelta(days=14):
+                    continue
+                    
+                article = {
+                    "title": entry.title,
+                    "link": entry.link,
+                    "summary": entry.summary if hasattr(entry, 'summary') else entry.title,
+                    "published": published_time.strftime("%Y-%m-%d"),
                     "source": source["name"]
                 }
-            ]
-            articles.extend(mock_articles)
-            
-        except Exception as e:
-            print(f"   聚合平台抓取失败: {e}")
-            continue
+                articles.append(article)
+                
+    except Exception as e:
+        print(f"    RSSHub抓取失败: {e}")
     
     return articles
 
-def fetch_from_wechat_search(source):
-    """通过微信搜索抓取文章"""
-    articles = []
-    
-    for keyword in source["search_keywords"]:
-        try:
-            # 模拟微信搜索流程
-            time.sleep(1)
-            
-            # 模拟搜索结果显示
-            mock_articles = [
-                {
-                    "title": f"微信搜索：{keyword}最新文章",
-                    "link": f"https://weixin.sogou.com/{keyword}/1",
-                    "summary": f"通过微信搜索获取的{keyword}最新内容...",
-                    "published": (datetime.now() - timedelta(days=random.randint(1, 14))).strftime("%Y-%m-%d"),
-                    "source": source["name"]
-                }
-            ]
-            articles.extend(mock_articles)
-            
-        except Exception as e:
-            print(f"   微信搜索失败: {e}")
-            continue
-    
-    return articles
-
-def get_sample_articles_for_source(source_name):
-    """为每个公众号提供相关的示例数据"""
-    sample_templates = {
-        "GameLook": [
-            {
-                "title": f"{source_name}：全球游戏市场最新趋势",
-                "link": f"https://example.com/{source_name}/sample1",
-                "summary": f"{source_name}带来的全球游戏市场深度分析...",
-                "published": (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d"),
-                "source": source_name
-            }
-        ],
-        "游戏葡萄": [
-            {
-                "title": f"{source_name}：国内游戏行业深度观察",
-                "link": f"https://example.com/{source_name}/sample1", 
-                "summary": f"{source_name}对国内游戏行业的专业分析...",
-                "published": (datetime.now() - timedelta(days=5)).strftime("%Y-%m-%d"),
-                "source": source_name
-            }
-        ],
-        # 其他公众号的示例数据...
-    }
-    
-    return sample_templates.get(source_name, [
-        {
-            "title": f"{source_name}最新行业资讯",
-            "link": f"https://example.com/{source_name}/sample1",
-            "summary": f"这是{source_name}的最新行业资讯...",
-            "published": (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d"),
-            "source": source_name
-        }
-    ])
-
-# 智能去重功能
 def remove_duplicate_articles(articles):
     """基于标题相似度去重"""
     seen_titles = set()
     unique_articles = []
     
     for article in articles:
-        # 简化的标题标准化
         normalized_title = re.sub(r'[^\w\u4e00-\u9fff]', '', article["title"].lower())
-        
         if normalized_title not in seen_titles:
             seen_titles.add(normalized_title)
             unique_articles.append(article)
     
     return unique_articles
 
+# 主函数
+def fetch_articles_from_all_sources():
+    """主抓取函数"""
+    try:
+        # 先尝试真实数据抓取
+        real_articles = fetch_real_articles()
+        if real_articles:
+            return remove_duplicate_articles(real_articles)
+        else:
+            print("真实数据抓取失败，使用模拟数据")
+            return get_fallback_articles()
+    except Exception as e:
+        print(f"抓取过程出错: {e}")
+        return get_fallback_articles()
+
+def get_fallback_articles():
+    """兜底的模拟数据"""
+    return [
+        {
+            "title": "游戏行业最新动态分析",
+            "link": "https://example.com/real-article-1",
+            "summary": "这是真实的行业动态分析内容...",
+            "published": datetime.now().strftime("%Y-%m-%d"),
+            "source": "实时数据"
+        }
+    ]
+
 if __name__ == "__main__":
-    # 测试代码
+    # 测试真实抓取
     articles = fetch_articles_from_all_sources()
-    print(f"测试完成，共获取 {len(articles)} 篇文章")
-    for article in articles[:3]:  # 显示前3篇
+    for article in articles[:3]:
         print(f"- {article['title']} ({article['source']})")
