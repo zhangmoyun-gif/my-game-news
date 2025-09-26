@@ -1,38 +1,76 @@
-permissions:
-  contents: write
-
-name: Weekly Update Game News
+name: Update Game News
 
 on:
   schedule:
-    # 每两周周一北京时间早上8点运行 (UTC时间0点)
     - cron: '0 0 */14 * *'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4 feedparser
-
-      - name: Run scraper and update data
-        run: python main.py
-
-      - name: Commit and push if changes
-        run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git diff --staged --quiet || git commit -m "Auto-update: Bi-weekly news and data refresh"
-          git push
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4 feedparser lxml
+        
+    - name: Run data update
+      run: |
+        python -c "
+        import json
+        from datetime import datetime
+        
+        # 创建测试数据
+        data = {
+            'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'top_articles': [
+                {
+                    'title': '测试文章：工作流运行成功',
+                    'link': 'https://example.com/test',
+                    'summary': '这是一个测试文章，证明工作流正常运行',
+                    'published': '2024-01-23',
+                    'source': '系统测试',
+                    'score': 5,
+                    'tags': ['测试', '成功']
+                }
+            ],
+            'new_games': [
+                {
+                    'name': '测试游戏',
+                    'platform': ['手游'],
+                    'genre': ['测试'],
+                    'release_date': '2024-01-23',
+                    'estimated_downloads': '100万',
+                    'estimated_revenue': '200万'
+                }
+            ]
+        }
+        
+        # 保存到文件
+        import os
+        os.makedirs('docs', exist_ok=True)
+        with open('docs/data.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print('测试数据生成成功！')
+        "
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git diff --staged --quiet || git commit -m "Test: Workflow verification"
+        git push
