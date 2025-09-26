@@ -1,45 +1,30 @@
 {
-  "last_updated": "2025-09-23 10:26:32",
-  "top_articles": [],
+  "last_updated": "2025-09-26 06:11:28",
+  "top_articles": [
+    {
+      "title": "测试文章：工作流运行成功",
+      "link": "https://example.com/test",
+      "summary": "这是一个测试文章，证明工作流正常运行",
+      "published": "2024-01-23",
+      "source": "系统测试",
+      "score": 5,
+      "tags": [
+        "测试",
+        "成功"
+      ]
+    }
+  ],
   "new_games": [
     {
-      "name": "《宿命回响：弦上的叹息》",
+      "name": "测试游戏",
       "platform": [
         "手游"
       ],
       "genre": [
-        "RPG",
-        "音乐"
+        "测试"
       ],
-      "release_date": "2023-10-18",
-      "estimated_downloads": "150万",
-      "estimated_revenue": "500万"
-    },
-    {
-      "name": "《战锤40K：暗潮》",
-      "platform": [
-        "PC",
-        "Xbox"
-      ],
-      "genre": [
-        "FPS",
-        "合作"
-      ],
-      "release_date": "2023-10-17",
-      "estimated_downloads": "50万",
-      "estimated_revenue": "300万"
-    },
-    {
-      "name": "《铃兰之剑：为这和平的世界》",
-      "platform": [
-        "手游"
-      ],
-      "genre": [
-        "SRPG",
-        "策略"
-      ],
-      "release_date": "2023-10-20",
-      "estimated_downloads": "80万",
+      "release_date": "2024-01-23",
+      "estimated_downloads": "100万",
       "estimated_revenue": "200万"
     }
   ]
